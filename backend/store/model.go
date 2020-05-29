@@ -14,12 +14,12 @@ type Exception struct {
 }
 
 type Product struct {
-	ID          int    `bson:"_id"`
+	ID          int    `json:"id"`
 	Title       string `json:"title"`
 	Image       string `json:"image"`
 	Description string `json:"description"`
 	Price       uint64 `json:"price"`
-	Rating      uint8  `json:"rating"`
+	Rating      byte   `json:"rating"`
 }
 
 type Products []Product
