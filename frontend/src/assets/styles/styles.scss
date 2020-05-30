@@ -1,1 +1,44 @@
 @import 'variables.scss';
+
+.btn {
+  padding: $padding $padding * 2;
+  background: $blue-bg;
+  color: #ffffff;
+  border: 0;
+  border-radius: $radius;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background: $blue-bg-hover;
+  }
+}
+
+.span {
+  padding: $padding $padding ;
+  background: $blue-bg;
+  color: #ffffff;
+  border: 0;
+  border-radius: $radius;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background: $blue-bg-hover;
+  }
+}
+
+.btn_remove {
+  padding: $padding $padding * 2;
+  background: $red-bg;
+  color: #ffffff;
+  border: 0;
+  border-radius: $radius;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background: $red-bg-hover;
+  }
+}
+

@@ -26,19 +26,19 @@ var routes = Routes{
 	Route{
 		"Index",
 		"GET",
-		"/",
+		"/products",
 		controller.Index,
 	},
 	Route{
 		"AddProduct",
 		"POST",
-		"/add_product",
+		"/product",
 		AuthMiddleware(controller.AddProduct),
 	},
 	Route{
 		"UpdateProduct",
 		"PUT",
-		"/update_product",
+		"/product",
 		AuthMiddleware(controller.UpdateProduct),
 	},
 	Route{
@@ -50,7 +50,7 @@ var routes = Routes{
 	Route{
 		"DeleteProduct",
 		"DELETE",
-		"/delete_product/{id}",
+		"/product/{id}",
 		AuthMiddleware(controller.DeleteProduct),
 	}}
 

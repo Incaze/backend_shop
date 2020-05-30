@@ -34,7 +34,7 @@ func (r Repository) GetProducts() Products {
 	products := Products{}
 	for rows.Next() {
 		p := Product{}
-		err := rows.Scan(&p.ID, &p.Description, &p.Image, &p.Price, &p.Rating, &p.Title)
+		err := rows.Scan(&p.ID, &p.Title, &p.Image, &p.Description, &p.Price, &p.Rating, &p.Category)
 		if err != nil {
 			fmt.Println(err)
 			continue
@@ -61,7 +61,7 @@ func (r Repository) GetProductById(id int) Product {
 
 	product := Product{}
 	for rows.Next() {
-		err = rows.Scan(&product.ID, &product.Description, &product.Image, &product.Price, &product.Rating, &product.Title)
+		err = rows.Scan(&product.ID, &product.Title, &product.Image, &product.Description, &product.Price, &product.Rating, &product.Category)
 		if err != nil {
 			panic(err)
 		}
@@ -79,8 +79,8 @@ func (r Repository) AddProduct(product Product) bool {
 	defer db.Close()
 
 	_, err = db.Query("insert into `products` "+
-		"(title, rating, price, image, description) values (?, ?, ?, ?, ?)",
-		product.Title, product.Rating, product.Price, product.Image, product.Description)
+		"(title, image, description, price, rating, category) values (?, ?, ?, ?, ?, ?)",
+		product.Title, product.Image, product.Description, product.Price, product.Rating, product.Category)
 
 	if err != nil {
 		fmt.Println(err)
@@ -99,8 +99,8 @@ func (r Repository) UpdateProduct(product Product) bool {
 	defer db.Close()
 
 	_, err = db.Query("update `products` set "+
-		"title = ?, rating = ?, price = ?, image = ?, description = ? where id = ?",
-		product.Title, product.Rating, product.Price, product.Image, product.Description, product.ID)
+		"title = ?, image = ?, description = ?, price = ?, rating = ?, category = ? where id = ?",
+		product.Title, product.Image, product.Description, product.Price, product.Rating, product.Category, product.ID)
 
 	if err != nil {
 		fmt.Println(err)
