@@ -1,5 +1,4 @@
 <template>
-
     <div class="v-catalog-item">
         <img class="v-catalog-item__image" :src=" require('@/assets/images/' + product_data.image) " alt="img">
         <p class="v-catalog-item__name">{{product_data.title}}</p>
@@ -7,6 +6,7 @@
         <p class="v-catalog-item__description">{{product_data.description}}</p>
         <p class="v-catalog-item__rating">Оценка: {{product_data.rating}}/5.0</p>
         <button
+                v-if="JWT_AUTH.token.length"
                 class="v-catalog-item__add_to_cart_btn btn"
                 @click="addToCart"
         >Добавить в корзину
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "v-catalog-item",
         props: {
@@ -27,6 +29,11 @@
         },
         data(){
             return {}
+        },
+        computed: {
+            ...mapGetters([
+                'JWT_AUTH'
+            ])
         },
         methods: {
             addToCart(){

@@ -16,6 +16,35 @@ const (
 	SERVER   = USERNAME + ":" + PASSWORD + "@/" + DBNAME
 )
 
+func (r Repository) AuthUser(username string, passwordHash string) bool {
+	db, err := sql.Open(DRIVER, SERVER)
+
+	if err != nil {
+		fmt.Println("Failed to establish connection to MySQL server:", err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query("select `username`, `password_hash` from `users` where `username` = ? and `password_hash` = ?", username, passwordHash)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	user := User{}
+
+	for rows.Next() {
+		err := rows.Scan(&user.Username, &user.Password)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+	}
+	if user.Username != "" {
+		return true
+	}
+	return false
+}
+
 // Return all products
 func (r Repository) GetProducts() Products {
 	db, err := sql.Open(DRIVER, SERVER)
@@ -125,4 +154,23 @@ func (r Repository) DeleteProduct(id int) string {
 		return "INTERNAL ERR"
 	}
 	return "OK"
+}
+
+// Register user
+func (r Repository) RegisterUser(username string, passwordHash string) bool {
+	db, err := sql.Open(DRIVER, SERVER)
+
+	if err != nil {
+		fmt.Println("Failed to establish connection to MySQL server:", err)
+	}
+	defer db.Close()
+
+	//isUserExists := utils.IsUserExists(db, username)
+
+	_, err = db.Query("insert into `users` (`username`, `password_hash`) values (?, ?)", username, passwordHash)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	return true
 }

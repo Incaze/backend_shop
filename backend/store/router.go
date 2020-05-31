@@ -24,10 +24,10 @@ var routes = Routes{
 		controller.GetToken,
 	},
 	Route{
-		"Index",
+		"GetCatalog",
 		"GET",
 		"/products",
-		controller.Index,
+		controller.GetCatalog,
 	},
 	Route{
 		"AddProduct",
@@ -52,6 +52,12 @@ var routes = Routes{
 		"DELETE",
 		"/product/{id}",
 		AuthMiddleware(controller.DeleteProduct),
+	},
+	Route{
+		"RegisterUser",
+		"POST",
+		"/register",
+		controller.RegisterUser,
 	}}
 
 func CreateRouter() *mux.Router {

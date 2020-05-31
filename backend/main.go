@@ -13,8 +13,9 @@ func main() {
 
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT"})
+	allowedHeaders := handlers.AllowedHeaders([]string{"Content-Type", "Access-Control-Allow-Headers", "Authorization", "X-Requested-With"})
 
-	handlerCRUD := handlers.CORS(allowedOrigins, allowedMethods)(router)
+	handlerCRUD := handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(router)
 
 	log.Fatal(http.ListenAndServe(":"+utils.PORT, handlerCRUD))
 }

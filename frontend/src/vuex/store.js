@@ -13,6 +13,12 @@ let store = new Vuex.Store( {
     state: {
         products: [],
         cart: [],
+        registration_status: "",
+        auth_text_status: "",
+        jwt: {
+            username: "",
+            token: "",
+        },
     },
     mutations,
     actions,

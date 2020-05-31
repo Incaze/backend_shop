@@ -6,7 +6,8 @@ type User struct {
 }
 
 type JwtToken struct {
-	Token string `json:"token"`
+	Token    string `json:"token"`
+	Username string `json:"username"`
 }
 
 type Exception struct {
@@ -20,7 +21,7 @@ type Product struct {
 	Description string  `json:"description"`
 	Price       uint64  `json:"price"`
 	Rating      float32 `json:"rating"`
-	Category	string  `json:"category"`
+	Category    string  `json:"category"`
 }
 
 type Products []Product

@@ -7,10 +7,17 @@ export default {
     },
     INCREMENT_CART_ITEM({commit}, index){
         commit('INCREMENT', index)
-
     },
-    DECREMENT_CART_ITEM({commit},index){
+    DECREMENT_CART_ITEM({commit}, index){
         commit('DECREMENT', index)
+    },
+    AUTH_UPDATE_STATUS({commit}, text){
+        commit('AUTH_UPDATE', text)
+    },
+    SIGN_OUT({commit}){
+        commit('REMOVE_JWT_TOKEN')
     }
+
+
 }
 

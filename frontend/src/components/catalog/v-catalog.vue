@@ -1,8 +1,6 @@
 <template>
     <div class="v-catalog">
-        <router-link :to="{name: 'cart', params: {cart_data: CART}}">
-            <div class="v-catalog__link_to_cart">Корзина: {{CART.length}}</div>
-        </router-link>
+        <v-links/>
         <h1>Каталог</h1>
         <div class="v-catalog__list">
             <v-catalog-item
@@ -19,10 +17,12 @@
 <script>
     import vCatalogItem from "./v-catalog-item";
     import {mapActions, mapGetters} from 'vuex'
+    import VLinks from "../utils/v-links";
 
     export default {
         name: "v-catalog",
         components: {
+            VLinks,
             vCatalogItem
         },
         data() {
@@ -43,7 +43,6 @@
         computed: {
             ...mapGetters([
                 'PRODUCTS',
-                'CART'
             ])
         }
 
@@ -57,14 +56,6 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-        }
-        &__link_to_cart {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: $padding * 2;
-            border: solid 1px #aeaeae;
-            background: #ffffff;
         }
     }
 </style>

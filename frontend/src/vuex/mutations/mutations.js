@@ -28,5 +28,17 @@ export default {
         if (state.cart[index].quantity > 1){
             state.cart[index].quantity--
         }
+    },
+    SET_REGISTRATION_STATUS_TO_STATE: (state, status) => {
+        state.registration_status = status
+    },
+    AUTH_UPDATE: (state, text) => {
+        state.auth_text_status = text
+    },
+    SET_AUTH_DATA_TO_STATE: (state, jwt) => {
+        state.jwt = jwt
+    },
+    REMOVE_JWT_TOKEN: (state) => {
+        state.jwt = {}
     }
 }

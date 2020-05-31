@@ -51,24 +51,34 @@ func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	})
 }
 
-/* GET */
-func (c *Controller) GetToken(w http.ResponseWriter, req *http.Request) {
+/* POST */
+func (c *Controller) GetToken(w http.ResponseWriter, r *http.Request) {
 	var user User
-	_ = json.NewDecoder(req.Body).Decode(&user)
+	_ = json.NewDecoder(r.Body).Decode(&user)
+
+	passwordHash := utils.GetEncryptedPassword(user.Password)
+
+	isUserExists := c.Repository.AuthUser(user.Username, passwordHash)
+
+	if !isUserExists {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": user.Username,
-		"password": user.Password,
+		"password": passwordHash,
 	})
 
 	tokenString, err := token.SignedString([]byte("secret"))
 	if err != nil {
 		log.Println(err)
 	}
-	_ = json.NewEncoder(w).Encode(JwtToken{Token: tokenString})
+	_ = json.NewEncoder(w).Encode(JwtToken{Token: tokenString, Username: user.Username})
 }
 
 /* GET */
-func (c *Controller) Index(w http.ResponseWriter, _ *http.Request) {
+func (c *Controller) GetCatalog(w http.ResponseWriter, _ *http.Request) {
 	products := c.Repository.GetProducts()
 	data, _ := json.Marshal(products)
 	w = utils.SetRequestHeaders(w)
@@ -188,5 +198,23 @@ func (c *Controller) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	w = utils.SetRequestHeaders(w)
 	w.WriteHeader(http.StatusOK)
+	return
+}
+
+func (c *Controller) RegisterUser(w http.ResponseWriter, r *http.Request) {
+	var user User
+	_ = json.NewDecoder(r.Body).Decode(&user)
+
+	if !(user.Password == "" || user.Username == "") {
+		user.Password = utils.GetEncryptedPassword(user.Password)
+
+		if noError := c.Repository.RegisterUser(user.Username, user.Password); noError == false {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	w.WriteHeader(http.StatusBadRequest)
 	return
 }
